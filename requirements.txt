@@ -3,3 +3,7 @@ langchain-groq
 langchain-core
 python-dotenv
 pytest
+chromadb
+langchain-chroma
+sentence-transformers
+langchain-huggingface

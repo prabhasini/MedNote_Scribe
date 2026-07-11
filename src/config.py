@@ -20,3 +20,9 @@ GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 
 # Path to the SOAP-note system prompt
 SYSTEM_PROMPT_PATH: Path = PROJECT_ROOT / "src" / "prompts" / "system_prompt.md"
+
+# Corpus and Vector Store configurations
+CORPUS_DIR: Path = PROJECT_ROOT / "data" / "corpus"
+CHROMA_DB_DIR: Path = PROJECT_ROOT / "data" / "chroma_db"
+EMBEDDING_MODEL_NAME: str = "all-MiniLM-L6-v2"
+

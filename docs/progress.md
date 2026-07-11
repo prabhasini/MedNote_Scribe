@@ -1,6 +1,6 @@
 # MedNote Scribe — Progress Tracker
 
-> Last updated: 2026-07-10
+> Last updated: 2026-07-11
 
 ## Status Legend
 | Symbol | Meaning |
@@ -20,9 +20,9 @@
 | 1 | Kickoff: assign roles, review requirements.md, agree on tech stack | ✅ | `docs/team.md` exists; stack agreed (Python 3.14, LangChain, Groq, Gradio, ChromaDB) |
 | 2 | Set up git repo: .gitignore, README, branch strategy | ✅ | Repo initialised; `.gitignore` includes `.env`, `venv`, `__pycache__`; README present |
 | 3 | Draft system prompt for SOAP-note generation + tone/no-diagnosis guardrails | ✅ | `src/prompts/system_prompt.md` committed; 6-case test suite passes in `src/tests/test_chatbot.py` |
-| 4 | Generate synthetic dataset of doctor-patient transcripts (incl. red-flag case) | ⬜ | — |
-| 5 | Collect ICD-10 code subset and clinical docs for RAG corpus | ⬜ | — |
-| 6 | Build ingestion pipeline: chunk, embed, load into vector store | ⬜ | — |
+| 4 | Generate synthetic dataset of doctor-patient transcripts (incl. red-flag case) | ✅ | `data/transcripts_synthetic/transcripts.csv` containing 6 transcripts (including 1 red-flag case) |
+| 5 | Collect ICD-10 code subset and clinical docs for RAG corpus | ✅ | `data/corpus/` containing `icd10_codes.md`, `clinical_guidelines.md`, and `SOURCES.md` |
+| 6 | Build ingestion pipeline: chunk, embed, load into vector store | ✅ | Ingestion pipeline script `src/ingest.py` implemented and verified |
 | 7 | Implement retrieval; test against tension-headache ICD-10 query | ⬜ | — |
 | 8 | Wire minimal prototype: transcript → SOAP note (no tools/guardrails) | ⬜ | — |
 | 9 | Build Gradio chat UI and deploy locally with shareable link | ⬜ | — |

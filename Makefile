@@ -1,24 +1,31 @@
-.PHONY: install ingest run queries test clean
+.PHONY: install ingest retrieve run queries test clean
+
+# Virtual environment paths
+VENV_BIN = .venv/bin
 
 # Install dependencies in the active virtualenv
 install:
-	pip install -r requirements.txt
+	$(VENV_BIN)/pip install -r requirements.txt
 
 # Run the ingestion pipeline to build/index the vector store
 ingest:
-	python src/scripts/ingest.py
+	$(VENV_BIN)/python src/scripts/ingest.py
+
+# Run Task 7 retrieval test: top-3 results for the tension-headache query
+retrieve:
+	$(VENV_BIN)/python src/scripts/retrieve.py
 
 # Launch the interactive CLI chatbot
 run:
-	python src/chatbot.py
+	$(VENV_BIN)/python src/chatbot.py
 
 # Run the 6 sample queries and print responses
 queries:
-	python src/scripts/run_queries.py
+	$(VENV_BIN)/python src/scripts/run_queries.py
 
 # Run the automated pytest suite
 test:
-	pytest src/tests/test_chatbot.py -v
+	$(VENV_BIN)/pytest src/tests/test_chatbot.py -v
 
 # Clean up Python cache and test artifacts
 clean:

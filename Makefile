@@ -1,4 +1,4 @@
-.PHONY: install ingest retrieve run queries test clean
+.PHONY: install ingest retrieve run queries test clean ui
 
 # Virtual environment paths
 VENV_BIN = .venv/bin
@@ -19,6 +19,10 @@ retrieve:
 run:
 	$(VENV_BIN)/python src/chatbot.py
 
+# Launch the Gradio web UI
+ui:
+	$(VENV_BIN)/python src/app.py
+
 # Run the 6 sample queries and print responses
 queries:
 	$(VENV_BIN)/python src/scripts/run_queries.py
@@ -31,3 +35,4 @@ test:
 clean:
 	rm -rf __pycache__ src/__pycache__ src/scripts/__pycache__ src/tests/__pycache__
 	rm -rf .pytest_cache
+

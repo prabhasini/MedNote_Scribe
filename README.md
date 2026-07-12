@@ -14,6 +14,8 @@ The primary user of this tool is **Dr. Ananya Rao**, a general physician aiming 
   - Refuses to suggest or adjust medication dosages unless explicitly declared in the transcript.
 - **RAG Reference Corpus**: Includes a subset of ICD-10-CM codes and clinical guidelines under `data/corpus/`.
 - **RAG Ingestion Pipeline**: Chunk, embed (using `all-MiniLM-L6-v2` locally), and index corpus files into a local persistent `Chroma` database under `data/chroma_db/`.
+- **RAG Retrieval Validator**: A script (`src/scripts/retrieve.py`) verifying top-3 similarity search matches for ICD-10 lookup queries.
+- **Gradio Web Interface**: Clean, side-by-side layout allowing Dr. Rao to paste transcripts and review generated SOAP notes with one-click example inputs.
 - **Automated Integration Test Suite**: 6-case pytest coverage verifying chatbot compliance with requirements.
 
 ---
@@ -33,11 +35,13 @@ MedNote_Scribe/
 │   └── progress.md             # Project implementation progress tracking
 └── src/
     ├── config.py               # Centralized configuration (loads .env)
-    ├── chatbot.py              # CLI interactive chatbot app
+    ├── chatbot.py              # CLI interactive chatbot app (with RAG pipeline)
+    ├── app.py                  # Gradio Web UI interface app
     ├── prompts/
     │   └── system_prompt.md    # SOAP prompt markdown definition
     ├── scripts/
     │   ├── ingest.py           # Corpus indexing pipeline
+    │   ├── retrieve.py         # RAG similarity retrieval validator
     │   ├── run_queries.py      # Batch sample queries runner script
     │   └── generate_transcripts.py # Synthetic transcripts csv builder script
     └── tests/
@@ -82,25 +86,37 @@ Runs the ingestion script to split the corpus docs, compute local Hugging Face e
 make ingest
 ```
 
-### 2. Run the Interactive Chatbot
+### 2. Validate Retrieval (Task 7)
+Runs similarity search testing against a sample query to verify that target code context is retrieved in the top-3 results:
+```bash
+make retrieve
+```
+
+### 3. Run the Interactive Chatbot (Task 8 CLI)
 Launches the CLI-based chatbot where you can interactively paste transcripts or ask clinical questions:
 ```bash
 make run
 ```
 
-### 3. Run Sample Queries
+### 4. Launch the Gradio Web UI (Task 9 App)
+Launches the web browser user interface containing sample transcripts and side-by-side rendering outputs:
+```bash
+make ui
+```
+
+### 5. Run Sample Queries
 Runs all 6 sample queries specified in `requirements.md` in batch mode and displays the queries and formatted model responses:
 ```bash
 make queries
 ```
 
-### 4. Run Tests
+### 6. Run Tests
 Runs the automated integration test suite across all 6 scenario categories:
 ```bash
 make test
 ```
 
-### 5. Clean Up
+### 7. Clean Up
 Deletes python cache and test artifact files:
 ```bash
 make clean

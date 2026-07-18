@@ -81,9 +81,16 @@ MedNote_Scribe/
 We provide a `Makefile` to simplify common commands. Ensure your virtual environment is active before running these:
 
 ### 1. Build the Vector Store (Ingestion)
-Runs the ingestion script to split the corpus docs, compute local Hugging Face embeddings, and store them in the Chroma vector database:
+Normalizes the WHO ICD-10 ClaML XML into `data/corpus/icd10_2019.jsonl`, builds one
+structured retrieval chunk per ICD class, computes local Hugging Face embeddings, and
+stores them in the Chroma vector database. Later runs update only changed ICD records:
 ```bash
 make ingest
+```
+
+Use a full reset only when needed:
+```bash
+.venv/bin/python src/scripts/ingest.py --full-rebuild
 ```
 
 ### 2. Validate Retrieval (Task 7)

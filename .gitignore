@@ -218,7 +218,7 @@ __marimo__/
 .streamlit/secrets.toml
 
 # Project-specific ignores
-data/chroma_db/
+*data/chroma_db/*
 logs/
 .idea/
 pyrightconfig.json

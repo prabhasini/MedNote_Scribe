@@ -26,3 +26,7 @@ CORPUS_DIR: Path = PROJECT_ROOT / "data" / "corpus"
 CHROMA_DB_DIR: Path = PROJECT_ROOT / "data" / "chroma_db"
 EMBEDDING_MODEL_NAME: str = "all-MiniLM-L6-v2"
 
+# WHO ICD-10 ClaML source and its normalized, deterministic JSONL derivative.
+ICD10_XML_PATH: Path = CORPUS_DIR / "icd102019en.xml"
+ICD10_JSONL_PATH: Path = CORPUS_DIR / "icd10_2019.jsonl"
+CLINICAL_GUIDELINES_PATH: Path = CORPUS_DIR / "clinical_guidelines.md"

@@ -30,3 +30,7 @@ EMBEDDING_MODEL_NAME: str = "all-MiniLM-L6-v2"
 ICD10_XML_PATH: Path = CORPUS_DIR / "icd102019en.xml"
 ICD10_JSONL_PATH: Path = CORPUS_DIR / "icd10_2019.jsonl"
 CLINICAL_GUIDELINES_PATH: Path = CORPUS_DIR / "clinical_guidelines.md"
+
+# Mock EHR store (local JSON file)
+EHR_STORE_PATH: Path = PROJECT_ROOT / "data" / "ehr_store.json"
+

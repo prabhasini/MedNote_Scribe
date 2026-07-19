@@ -1,0 +1,95 @@
+{
+  "patients": {
+    "PAT-001": {
+      "name": "Synthetic Patient A",
+      "dob": "1980-03-15",
+      "visits": [
+        {
+          "note_id": "NOTE-PAT001-20260601-001",
+          "visit_date": "2026-06-01",
+          "note": "S: Patient reports recurrent headaches for the last 6 months, occurring several times a month. Described as a tight band squeezing around the head, worse after long days at work. Denies nausea, vomiting, photophobia, or phonophobia.\nO: BP 120/80, Heart Rate 70. Tenderness in neck and shoulder muscles.\nA: For physician review: Suggestive of recurrent tension headache (ICD-10 suggestion: G44.2 — for physician confirmation only).\nP: Stress management and regular sleep. Ibuprofen 400mg as needed for acute episodes (limit to 2-3 days per week).",
+          "icd10_suggestions": [
+            "G44.2"
+          ],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT001-20260719-001",
+          "visit_date": "2026-07-19",
+          "note": "S: Test note\nO: BP 120/80\nA: ...\nP: ...",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT001-20260719-002",
+          "visit_date": "2026-07-19",
+          "note": "S: Test note\nO: BP 120/80\nA: ...\nP: ...",
+          "icd10_suggestions": [],
+          "signed": false
+        }
+      ]
+    },
+    "PAT-002": {
+      "name": "Synthetic Patient B",
+      "dob": "1965-08-22",
+      "visits": [
+        {
+          "note_id": "NOTE-PAT002-20260510-001",
+          "visit_date": "2026-05-10",
+          "note": "S: Patient presents for hypertension follow-up. Reports feeling well on Lisinopril 10mg without side effects. Home BP checks run in the 130s/80s.\nO: BP 132/82, Heart Rate 68. Lungs clear to auscultation. Renal function and electrolytes normal.\nA: For physician review: Essential hypertension, stable and well-controlled (ICD-10 suggestion: I10 — for physician confirmation only).\nP: Continue Lisinopril 10mg daily. Follow-up and basic metabolic panel (BMP) in 3 months.",
+          "icd10_suggestions": [
+            "I10"
+          ],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT002-20260719-001",
+          "visit_date": "2026-07-19",
+          "note": "S: Patient reports mild dizziness on standing. No syncope or chest pain. O: BP 118/72 (orthostatic drop from 130/80). Heart Rate 76. A: For physician review: Possible orthostatic hypotension (ICD-10 suggestion: I95.1). P: Increase fluid intake, advise slow position changes. Follow up in 2 weeks.",
+          "icd10_suggestions": [],
+          "signed": false
+        }
+      ]
+    },
+    "PAT-003": {
+      "name": "Synthetic Patient C",
+      "dob": "1992-11-07",
+      "visits": []
+    },
+    "PAT-004": {
+      "name": "Synthetic Patient D",
+      "dob": "1978-04-30",
+      "visits": [
+        {
+          "note_id": "NOTE-PAT004-20260415-001",
+          "visit_date": "2026-04-15",
+          "note": "S: Patient reports productive cough with yellow sputum for 5 days, mild sore throat, and subjective fever. Denies shortness of breath, chest pain, or wheezing.\nO: Temperature 99.1 F, Heart Rate 80, Respiratory Rate 16, O2 Saturation 98% on room air. Mild scattered wheezing, good air entry. Erythematous throat without exudate.\nA: For physician review: Suspected acute bronchitis (ICD-10 suggestion: J20.9 — for physician confirmation only) or upper respiratory infection.\nP: Drink warm fluids, honey for cough, OTC guaifenesin as needed. Return to clinic if symptoms worsen, high fever, or shortness of breath develops.",
+          "icd10_suggestions": [
+            "J20.9"
+          ],
+          "signed": false
+        }
+      ]
+    },
+    "PAT-005": {
+      "name": "Synthetic Patient E",
+      "dob": "2001-02-14",
+      "visits": [
+        {
+          "note_id": "NOTE-PAT005-20260620-001",
+          "visit_date": "2026-06-20",
+          "note": "S: Patient reports rolling right ankle outward during basketball yesterday. Developed immediate swelling and pain on weight bearing.\nO: Right ankle shows swelling and tenderness over the anterior talofibular ligament. No tenderness over medial malleolus or base of the fifth metatarsal. BP 118/76, Pulse 75.\nA: For physician review: Suggested right ankle sprain (ICD-10 suggestion: S93.401A — for physician confirmation only).\nP: RICE protocol (Rest, Ice, Compression, Elevation). OTC ibuprofen for pain, limit weight bearing, use ankle brace. Follow up in 1 week if no improvement.",
+          "icd10_suggestions": [
+            "S93.401A"
+          ],
+          "signed": false
+        }
+      ]
+    },
+    "PAT-006": {
+      "name": "Synthetic Patient F",
+      "dob": "1955-09-03",
+      "visits": []
+    }
+  }
+}

@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mednote-scribe"
+version = "0.1.0"
+description = "AI clinical SOAP note and coding assistant"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "langchain>=0.3",
+    "langchain-groq",
+    "langchain-core",
+    "python-dotenv",
+    "chromadb",
+    "langchain-chroma",
+    "sentence-transformers",
+    "langchain-huggingface",
+    "gradio>=4.0",
+    "mcp",
+    "langchain-mcp-adapters",
+    "langgraph"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio"
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["src/tests"]

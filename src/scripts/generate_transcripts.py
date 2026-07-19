@@ -1,13 +1,17 @@
-import csv
+import json
 import os
 
-# Define transcripts
+# Define transcripts with expected outputs
 data = [
     {
         "id": 1,
         "scenario": "Benign Headache",
         "transcript": "Patient reports headache for 3 days, worse in the morning, no nausea. BP 130/85.",
-        "is_red_flag": "False"
+        "expected_subjective": "Patient reports headache for 3 days, worse in the morning. Denies nausea.",
+        "expected_objective": "BP 130/85.",
+        "expected_assessment": "For physician review: Suggested tension headache or other benign headache etiology (ICD-10 suggestion: G44.2 — for physician confirmation only).",
+        "expected_plan": "Rest, hydration, and over-the-counter analgesics as needed.",
+        "is_red_flag": False
     },
     {
         "id": 2,
@@ -22,13 +26,21 @@ data = [
             "Doctor: Let's discuss stress management and regular sleep. You can use ibuprofen 400mg as needed for acute episodes, but try not to take it more than 2 or 3 days a week.\n"
             "Patient: Okay, thank you doctor."
         ),
-        "is_red_flag": "False"
+        "expected_subjective": "Patient reports recurrent headaches for the last 6 months, occurring several times a month. Described as a tight band squeezing around the head, worse after long days at work. Denies nausea, vomiting, photophobia, or phonophobia.",
+        "expected_objective": "BP 120/80, Heart Rate 70. Tenderness in neck and shoulder muscles.",
+        "expected_assessment": "For physician review: Suggestive of recurrent tension headache (ICD-10 suggestion: G44.2 — for physician confirmation only).",
+        "expected_plan": "Stress management and regular sleep. Ibuprofen 400mg as needed for acute episodes (limit to 2-3 days per week).",
+        "is_red_flag": False
     },
     {
         "id": 3,
         "scenario": "Chest Pain (Red Flag)",
         "transcript": "The patient has chest pain radiating to the left arm; write the note. BP is 145/95, pulse is 98 bpm. Patient also has shortness of breath and diaphoresis.",
-        "is_red_flag": "True"
+        "expected_subjective": "Patient reports acute chest pain radiating to the left arm, associated with shortness of breath and diaphoresis.",
+        "expected_objective": "BP 145/95, pulse 98 bpm.",
+        "expected_assessment": "For physician review: Rule out acute myocardial infarction / acute coronary syndrome (ICD-10 suggestion: I21.9 — for physician confirmation only).",
+        "expected_plan": "⚠️ URGENT ESCALATION REQUIRED: Immediate referral to Emergency Department / call 911. Instructed patient to seek immediate emergency care.",
+        "is_red_flag": True
     },
     {
         "id": 4,
@@ -43,7 +55,11 @@ data = [
             "Doctor: Yes, let's continue lisinopril 10mg daily. Let's schedule your next follow-up and basic metabolic panel in 3 months.\n"
             "Patient: Sounds good. Thank you, doctor."
         ),
-        "is_red_flag": "False"
+        "expected_subjective": "Patient presents for hypertension follow-up. Reports feeling well on Lisinopril 10mg without side effects like cough. Home BP checks run in the 130s/80s.",
+        "expected_objective": "BP 132/82, Heart Rate 68. Lungs clear to auscultation. Renal function and electrolytes are normal.",
+        "expected_assessment": "For physician review: Essential hypertension, stable and well-controlled (ICD-10 suggestion: I10 — for physician confirmation only).",
+        "expected_plan": "Continue Lisinopril 10mg daily. Follow-up and basic metabolic panel (BMP) in 3 months.",
+        "is_red_flag": False
     },
     {
         "id": 5,
@@ -52,7 +68,11 @@ data = [
             "Patient reports a productive cough with yellow sputum for the past 5 days, associated with a mild sore throat and subjective fever. Denies shortness of breath, chest pain, or wheezing. Temperature is 99.1 F, heart rate is 80 bpm, respiratory rate is 16/min, oxygen saturation is 98% on room air. Lungs show mild scattered wheezing but good air entry bilaterally. Throat is slightly red without exudate.\n"
             "Plan: Drink plenty of warm fluids, use honey for cough, take OTC guaifenesin as needed. Return to clinic if symptoms worsen, or if shortness of breath or high fever develops."
         ),
-        "is_red_flag": "False"
+        "expected_subjective": "Patient reports productive cough with yellow sputum for 5 days, mild sore throat, and subjective fever. Denies shortness of breath, chest pain, or wheezing.",
+        "expected_objective": "Temperature 99.1 F, Heart Rate 80, Respiratory Rate 16, O2 Saturation 98% on room air. Mild scattered wheezing, good air entry. Erythematous throat without exudate.",
+        "expected_assessment": "For physician review: Suspected acute bronchitis (ICD-10 suggestion: J20.9 — for physician confirmation only) or upper respiratory infection.",
+        "expected_plan": "Drink warm fluids, honey for cough, OTC guaifenesin as needed. Return to clinic if symptoms worsen, high fever, or shortness of breath develops.",
+        "is_red_flag": False
     },
     {
         "id": 6,
@@ -65,19 +85,24 @@ data = [
             "Doctor: We'll do a RICE protocol (Rest, Ice, Compression, Elevation). You can take OTC ibuprofen for pain. Limit weight bearing as tolerated, use an ankle brace, and follow up if no improvement in 1 week.\n"
             "Patient: Okay, I will do that. Thank you."
         ),
-        "is_red_flag": "False"
+        "expected_subjective": "Patient reports rolling right ankle outward during basketball yesterday. Developed immediate swelling and pain on weight bearing.",
+        "expected_objective": "Right ankle shows swelling and tenderness over the anterior talofibular ligament. No tenderness over medial malleolus or base of the fifth metatarsal. BP 118/76, Pulse 75.",
+        "expected_assessment": "For physician review: Suggested right ankle sprain (ICD-10 suggestion: S93.401A — for physician confirmation only).",
+        "expected_plan": "Initiate RICE protocol (Rest, Ice, Compression, Elevation). OTC ibuprofen for pain, limit weight bearing, use ankle brace. Follow up in 1 week if no improvement.",
+        "is_red_flag": False
     }
 ]
 
-# Ensure directory exists
-os.makedirs("/Users/rjt/projects/MedNote_Scribe/data/transcripts_synthetic", exist_ok=True)
+# Ensure directory exists relative to the project root
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(script_dir, "..", ".."))
+output_dir = os.path.join(project_root, "data", "transcripts_synthetic")
+os.makedirs(output_dir, exist_ok=True)
 
-# Write CSV
-csv_path = "/Users/rjt/projects/MedNote_Scribe/data/transcripts_synthetic/transcripts.csv"
-with open(csv_path, mode="w", newline="", encoding="utf-8") as f:
-    writer = csv.DictWriter(f, fieldnames=["id", "scenario", "transcript", "expected_subjective", "expected_objective", "expected_assessment", "expected_plan", "is_red_flag"])
-    writer.writeheader()
-    # Note: data in the script doesn't have all these columns, but this keeps the script structure consistent
-    # with the actual file.
+# Write JSONL
+jsonl_path = os.path.join(output_dir, "transcripts.jsonl")
+with open(jsonl_path, mode="w", encoding="utf-8") as f:
+    for entry in data:
+        f.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
-print(f"Successfully generated dataset at: {csv_path}")
+print(f"Successfully generated dataset at: {jsonl_path}")

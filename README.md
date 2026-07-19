@@ -28,7 +28,7 @@ MedNote_Scribe/
 ├── data/
 │   ├── corpus/                 # RAG corpus source files (ICD-10 subset, guidelines)
 │   ├── chroma_db/              # Persistent Chroma database files
-│   └── transcripts_synthetic/  # SOAP-grounded evaluation transcripts CSV dataset
+│   └── transcripts_synthetic/  # SOAP-grounded evaluation transcripts JSONL dataset
 ├── docs/
 │   ├── requirements.md         # Project requirements and queries
 │   ├── tasks.md                # 4-week task checklist
@@ -43,7 +43,7 @@ MedNote_Scribe/
     │   ├── ingest.py           # Corpus indexing pipeline
     │   ├── retrieve.py         # RAG similarity retrieval validator
     │   ├── run_queries.py      # Batch sample queries runner script
-    │   └── generate_transcripts.py # Synthetic transcripts csv builder script
+    │   └── generate_transcripts.py # Synthetic transcripts jsonl builder script
     └── tests/
         ├── __init__.py
         └── test_chatbot.py     # Pytest test suite covering the 6 requirements queries
@@ -69,9 +69,15 @@ MedNote_Scribe/
    ```
 
 3. **Install Dependencies**:
-   Install the required Python packages:
+   Install the locked Python dependencies into your virtual environment:
    ```bash
    make install
+   ```
+
+4. **Dependency Compilation (Developers)**:
+   MedNote Scribe manages package dependencies in `pyproject.toml`. If you modify `pyproject.toml`, regenerate the locked `requirements.txt` file by running:
+   ```bash
+   make compile
    ```
 
 ---
@@ -123,7 +129,18 @@ Runs the automated integration test suite across all 6 scenario categories:
 make test
 ```
 
-### 7. Clean Up
+### 7. Run EHR Tools & MCP Tests
+Run the local EHR tools (save_note, get_patient_history) smoke test:
+```bash
+make test-tools
+```
+
+Or run the end-to-end MCP round-trip integration test (which runs the FastMCP server as a subprocess and tests tool execution by the ReAct agent):
+```bash
+make mcp-roundtrip
+```
+
+### 8. Clean Up
 Deletes python cache and test artifact files:
 ```bash
 make clean

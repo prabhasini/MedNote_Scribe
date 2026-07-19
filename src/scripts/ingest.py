@@ -88,8 +88,11 @@ def parse_claml(xml_path: Path) -> tuple[list[dict[str, Any]], str]:
             kind = rubric.get("kind", "text")
             rubrics.setdefault(kind, []).extend(english_labels(rubric))
             references.extend(
-                reference.get("code") for reference in rubric.findall(".//Reference") if reference.get("code")
+                code
+                for reference in rubric.findall(".//Reference")
+                if (code := reference.get("code"))
             )
+
 
         preferred = (rubrics.get("preferred") or rubrics.get("preferredLong") or [""])[0]
         notes = []
@@ -293,7 +296,8 @@ def run_ingestion(*, full_rebuild: bool = False) -> None:
             documents=docs,
             embedding=HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL_NAME),
             persist_directory=str(CHROMA_DB_DIR),
-            ids=[document.id for document in docs],
+            ids=[document.id for document in docs if document.id is not None] or None,
+            collection_metadata={"hnsw:space": "cosine"},
         )
         log.info("Completed full rebuild: %d ICD-10 chunks, %d guideline chunks.", len(icd_docs), len(guideline_docs))
         return
@@ -308,7 +312,7 @@ def run_ingestion(*, full_rebuild: bool = False) -> None:
         vectorstore.delete(where={"root_code": code})
     changed_docs = [document for document in icd_docs if document.metadata["root_code"] in changed_codes]
     if changed_docs:
-        vectorstore.add_documents(changed_docs, ids=[document.id for document in changed_docs])
+        vectorstore.add_documents(changed_docs, ids=[document.id for document in changed_docs if document.id is not None] or None)
     # Guidelines are small and independently sourced, so replacing their few
     # chunks is simpler and avoids treating them as ICD code records.
     vectorstore.delete(where={"source": CLINICAL_GUIDELINES_PATH.name})
@@ -316,7 +320,7 @@ def run_ingestion(*, full_rebuild: bool = False) -> None:
         vectorstore.add_documents(guideline_docs, ids=[document.id for document in guideline_docs])
     log.info(
         "Completed incremental update: %d changed, %d removed ICD-10 codes; %d guideline chunks refreshed.",
-        len(changed_codes), len(removed_codes), len(guideline_docs),
+        len(changed_codes), len(removed_codes), len(guideline_docs)
     )
 
 

@@ -20,7 +20,7 @@
 | 1 | Kickoff: assign roles, review requirements.md, agree on tech stack | ✅ | `docs/team.md` exists; stack agreed (Python 3.14, LangChain, Groq, Gradio, ChromaDB) |
 | 2 | Set up git repo: .gitignore, README, branch strategy | ✅ | Repo initialised; `.gitignore` includes `.env`, `venv`, `__pycache__`; README present |
 | 3 | Draft system prompt for SOAP-note generation + tone/no-diagnosis guardrails | ✅ | `src/prompts/system_prompt.md` committed; 6-case test suite passes in `src/tests/test_chatbot.py` |
-| 4 | Generate synthetic dataset of doctor-patient transcripts (incl. red-flag case) | ✅ | `data/transcripts_synthetic/transcripts.csv` containing 6 transcripts (including 1 red-flag case) |
+| 4 | Generate synthetic dataset of doctor-patient transcripts (incl. red-flag case) | ✅ | `data/transcripts_synthetic/transcripts.jsonl` containing 6 transcripts (including 1 red-flag case) |
 | 5 | Collect ICD-10 code subset and clinical docs for RAG corpus | ✅ | `data/corpus/` containing `icd10_codes.md`, `clinical_guidelines.md`, and `SOURCES.md` |
 | 6 | Build ingestion pipeline: chunk, embed, load into vector store | ✅ | Ingestion pipeline script `src/ingest.py` implemented and verified |
 | 7 | Implement retrieval; test against tension-headache ICD-10 query | ⬜ | — |
@@ -34,10 +34,10 @@
 
 | # | Task | Status | Evidence |
 |---|------|--------|----------|
-| 10 | Design tool specs: `save_note` and `get_patient_history` | ⬜ | — |
-| 11 | Implement mock EHR API and `save_note` tool | ⬜ | — |
-| 12 | Implement `get_patient_history` tool and wire into agent | ⬜ | — |
-| 13 | Set up MCP to expose both EHR tools; test full round-trip | ⬜ | — |
+| 10 | Design tool specs: `save_note` and `get_patient_history` | ✅ | `docs/tools.md` committed with both signatures, input/output tables, and error cases |
+| 11 | Implement mock EHR API and `save_note` tool | ✅ | `src/tools/ehr_tools.py` + `data/ehr_store.json`; 7-case smoke test passes |
+| 12 | Implement `get_patient_history` tool and wire into agent | ✅ | Implemented in `src/tools/ehr_tools.py`; all cases tested (known patient, new patient, unknown patient) |
+| 13 | Set up MCP to expose both EHR tools; test full round-trip | ✅ | `src/mcp_server.py` (FastMCP server) + `src/agent.py` (ReAct + MCP client); `make mcp-roundtrip` passes both tool calls |
 | 14 | Design memory schema: per-patient visit history and prior note drafts | ⬜ | — |
 | 15 | Integrate memory so agent recalls prior-visit context across sessions | ⬜ | — |
 | 16 | Wire tools and memory into Gradio UI via expandable "agent trace" panel | ⬜ | — |

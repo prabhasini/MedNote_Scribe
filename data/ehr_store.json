@@ -48,6 +48,13 @@
           "note": "S: Patient reports mild dizziness on standing. No syncope or chest pain. O: BP 118/72 (orthostatic drop from 130/80). Heart Rate 76. A: For physician review: Possible orthostatic hypotension (ICD-10 suggestion: I95.1). P: Increase fluid intake, advise slow position changes. Follow up in 2 weeks.",
           "icd10_suggestions": [],
           "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT002-20260719-002",
+          "visit_date": "2026-07-19",
+          "note": "S: Patient reports mild dizziness on standing. No syncope or chest pain. O: BP 118/72 (orthostatic drop from 130/80). Heart Rate 76. A: For physician review: Possible orthostatic hypotension (ICD-10 suggestion: I95.1). P: Increase fluid intake, advise slow position changes. Follow up in 2 weeks.",
+          "icd10_suggestions": [],
+          "signed": false
         }
       ]
     },

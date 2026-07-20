@@ -53,25 +53,26 @@ MedNote_Scribe/
 
 ## Installation & Setup
 
-1. **Environment Initialization**:
-   Ensure you have a Python environment set up (e.g., using `pyenv` and `virtualenv` with Python 3.14.6):
+1. **Create a virtual environment** (any Python ≥ 3.12 workflow works):
    ```bash
-   pyenv virtualenv 3.14.6 mednote-scribe
-   pyenv local mednote-scribe
+   python -m venv .venv
+   source .venv/bin/activate   # Windows: .venv\Scripts\activate
    ```
 
 2. **Environment Variables**:
    Create a `.env` file at the root of the project:
    ```env
    GROQ_API_KEY=your_groq_api_key_here
-   # Optional: Override the model used (defaults to llama-3.3-70b-versatile)
+   # Optional: Override the model (defaults to llama-3.3-70b-versatile)
    # GROQ_MODEL=llama-3.3-70b-versatile
    ```
 
 3. **Install Dependencies**:
-   Install the locked Python dependencies into your virtual environment:
+   With your virtual environment active, install the locked dependencies:
    ```bash
    make install
+   # or directly:
+   pip install -r requirements.txt
    ```
 
 4. **Dependency Compilation (Developers)**:
@@ -96,7 +97,7 @@ make ingest
 
 Use a full reset only when needed:
 ```bash
-.venv/bin/python src/scripts/ingest.py --full-rebuild
+python src/scripts/ingest.py --full-rebuild
 ```
 
 ### 2. Validate Retrieval (Task 7)

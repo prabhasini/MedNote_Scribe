@@ -7,7 +7,9 @@ The primary user of this tool is **Dr. Ananya Rao**, a general physician aiming 
 ---
 
 ## Key Features (Implemented)
-- **Zero-Shot SOAP Extraction**: Converts conversational or narrative doctor-patient transcripts into standard SOAP sections.
+
+### Week 1: Foundations & RAG
+- **Zero-Shot SOAP Extraction**: Converts conversational or narrative doctor-patient transcripts into standard bulleted SOAP sections.
 - **Tone & Clinical Safety Guardrails**:
   - Never asserts a diagnosis; all clinical assessments are framed as differentials and suggestions flagged `"For physician review: ..."` and pending confirmation.
   - Detects high-risk red-flag symptoms (like chest pain radiating to the left arm) and prepends an urgent escalation warning before compiling routine notes.
@@ -15,8 +17,19 @@ The primary user of this tool is **Dr. Ananya Rao**, a general physician aiming 
 - **RAG Reference Corpus**: Includes a subset of ICD-10-CM codes and clinical guidelines under `data/corpus/`.
 - **RAG Ingestion Pipeline**: Chunk, embed (using `all-MiniLM-L6-v2` locally), and index corpus files into a local persistent `Chroma` database under `data/chroma_db/`.
 - **RAG Retrieval Validator**: A script (`src/scripts/retrieve.py`) verifying top-3 similarity search matches for ICD-10 lookup queries.
-- **Gradio Web Interface**: Clean, side-by-side layout allowing Dr. Rao to paste transcripts and review generated SOAP notes with one-click example inputs.
-- **Automated Integration Test Suite**: 6-case pytest coverage verifying chatbot compliance with requirements.
+
+### Week 2: Tools, MCP & Memory
+- **Tool Specifications & Implementation (`save_note` & `get_patient_history`)**: Mock EHR integration (`data/ehr_store.json`) allowing note persistence and chronological patient history lookup.
+- **Model Context Protocol (MCP) Integration**: FastMCP server (`src/mcp_server.py`) exposing EHR tools over stdio transport to the ReAct agent (`src/agent.py`).
+- **Memory Architecture & Schemas (`docs/memory_design.md`)**:
+  - **Short-Term Memory**: In-memory `LangGraph` checkpointer (`MemorySaver`) maintaining multi-turn interaction thread context.
+  - **Long-Term Memory**: Persistent patient-scoped EHR store (`ehr_store.json`) for cross-session visit recall.
+  - **Cognitive Taxonomy**: Categorized into Episodic (Patient History), Semantic (RAG Reference), and Procedural (Rules & Safety).
+  - **Confidence Scoring**: Formatted relevance scores in retrieval tool output to gate information confidence.
+- **Modern Gradio Web Interface with Agent Trace**:
+  - High-contrast Slate/Dark aesthetic with crisp white text readability and vibrant orange primary action buttons.
+  - Expandable **Agent Trace & Memory Recall** panel detailing real-time tool calls (`save_note`, `get_patient_history`, `retrieve_icd10_context`), arguments, and tool outputs.
+  - Dynamic status badges indicating when RAG retrieval or EHR store access occurred.
 
 ---
 
@@ -29,25 +42,35 @@ MedNote_Scribe/
 ├── data/
 │   ├── corpus/                 # RAG corpus source files (ICD-10 subset, guidelines)
 │   ├── chroma_db/              # Persistent Chroma database files
+│   ├── ehr_store.json          # Mock EHR patient store database
 │   └── transcripts_synthetic/  # SOAP-grounded evaluation transcripts JSONL dataset
 ├── docs/
 │   ├── requirements.md         # Project requirements and queries
 │   ├── tasks.md                # 4-week task checklist
-│   └── progress.md             # Project implementation progress tracking
+│   ├── progress.md             # Project implementation progress tracking
+│   ├── tools.md                # Tool specifications (save_note, get_patient_history)
+│   └── memory_design.md        # Memory architecture, schemas & confidence scores
 └── src/
     ├── config.py               # Centralized configuration (loads .env)
     ├── chatbot.py              # CLI interactive chatbot app (with RAG pipeline)
-    ├── app.py                  # Gradio Web UI interface app
+    ├── agent.py                # LangGraph ReAct Agent with MCP client & MemorySaver
+    ├── mcp_server.py           # FastMCP server exposing save_note & get_patient_history
+    ├── app.py                  # Gradio Web UI interface app with Agent Trace Panel
     ├── prompts/
-    │   └── system_prompt.md    # SOAP prompt markdown definition
+    │   └── system_prompt.md    # SOAP prompt markdown definition with tool rules
     ├── scripts/
     │   ├── ingest.py           # Corpus indexing pipeline
     │   ├── retrieve.py         # RAG similarity retrieval validator
     │   ├── run_queries.py      # Batch sample queries runner script
+    │   ├── test_mcp_roundtrip.py # MCP agent roundtrip integration test
     │   └── generate_transcripts.py # Synthetic transcripts jsonl builder script
+    ├── tools/
+    │   └── ehr_tools.py        # EHR tool implementations (save_note, get_patient_history)
     └── tests/
         ├── __init__.py
-        └── test_chatbot.py     # Pytest test suite covering the 6 requirements queries
+        ├── test_chatbot.py     # Integration test suite covering requirement queries
+        ├── test_ehr_tools.py   # EHR tools smoke test
+        └── test_memory.py      # Cross-session memory recall integration test
 ```
 
 ---

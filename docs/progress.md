@@ -38,9 +38,9 @@
 | 11 | Implement mock EHR API and `save_note` tool | ✅ | `src/tools/ehr_tools.py` + `data/ehr_store.json`; 7-case smoke test passes |
 | 12 | Implement `get_patient_history` tool and wire into agent | ✅ | Implemented in `src/tools/ehr_tools.py`; all cases tested (known patient, new patient, unknown patient) |
 | 13 | Set up MCP to expose both EHR tools; test full round-trip | ✅ | `src/mcp_server.py` (FastMCP server) + `src/agent.py` (ReAct + MCP client); `make mcp-roundtrip` passes both tool calls |
-| 14 | Design memory schema: per-patient visit history and prior note drafts | ⬜ | — |
-| 15 | Integrate memory so agent recalls prior-visit context across sessions | ⬜ | — |
-| 16 | Wire tools and memory into Gradio UI via expandable "agent trace" panel | ⬜ | — |
+| 14 | Design memory schema: per-patient visit history and prior note drafts | ✅ | `docs/memory_design.md` committed covering short/long-term & episodic/semantic/procedural memory schemas and confidence scoring |
+| 15 | Integrate memory so agent recalls prior-visit context across sessions | ✅ | `src/agent.py` ReAct agent integrated via MCP + `get_patient_history`; verified with `src/tests/test_memory.py` |
+| 16 | Wire tools and memory into Gradio UI via expandable "agent trace" panel | ✅ | `src/app.py` UI updated with modern aesthetic, bulleted SOAP layout, status badges, and expandable agent trace panel |
 
 ---
 

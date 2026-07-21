@@ -24,7 +24,8 @@ The primary user of this tool is **Dr. Ananya Rao**, a general physician aiming 
 ```
 MedNote_Scribe/
 ├── Makefile                    # Developer tool command shortcuts
-├── requirements.txt            # Project python dependencies
+├── pyproject.toml              # Project dependencies and configuration
+├── uv.lock                     # Locked dependency resolution file
 ├── data/
 │   ├── corpus/                 # RAG corpus source files (ICD-10 subset, guidelines)
 │   ├── chroma_db/              # Persistent Chroma database files
@@ -53,10 +54,10 @@ MedNote_Scribe/
 
 ## Installation & Setup
 
-1. **Create a virtual environment** (any Python ≥ 3.12 workflow works):
+1. **Prerequisites**:
+   Install [`uv`](https://github.com/astral-sh/uv) (fast Python package installer & manager):
    ```bash
-   python -m venv .venv
-   source .venv/bin/activate   # Windows: .venv\Scripts\activate
+   curl -LsSf https://astral.sh/uv/install.sh | sh
    ```
 
 2. **Environment Variables**:
@@ -68,24 +69,26 @@ MedNote_Scribe/
    ```
 
 3. **Install Dependencies**:
-   With your virtual environment active, install the locked dependencies:
+   Install all project dependencies (creates/updates the virtual environment `.venv` automatically):
    ```bash
    make install
    # or directly:
-   pip install -r requirements.txt
+   uv sync --all-extras
    ```
 
-4. **Dependency Compilation (Developers)**:
-   MedNote Scribe manages package dependencies in `pyproject.toml`. If you modify `pyproject.toml`, regenerate the locked `requirements.txt` file by running:
+4. **Dependency Lock (Developers)**:
+   If you modify `pyproject.toml`, update `uv.lock` by running:
    ```bash
-   make compile
+   make lock
+   # or directly:
+   uv lock
    ```
 
 ---
 
 ## Commands and Usage
 
-We provide a `Makefile` to simplify common commands. Ensure your virtual environment is active before running these:
+We provide a `Makefile` using `uv` to simplify common commands.
 
 ### 1. Build the Vector Store (Ingestion)
 Normalizes the WHO ICD-10 ClaML XML into `data/corpus/icd10_2019.jsonl`, builds one
@@ -97,7 +100,7 @@ make ingest
 
 Use a full reset only when needed:
 ```bash
-python src/scripts/ingest.py --full-rebuild
+uv run python src/scripts/ingest.py --full-rebuild
 ```
 
 ### 2. Validate Retrieval (Task 7)

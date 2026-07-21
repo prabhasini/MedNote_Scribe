@@ -79,12 +79,17 @@ def _get_vectorstore():
         return None
 
 
+from langgraph.checkpoint.memory import MemorySaver
+
+# Shared checkpointer for short-term session state across multi-turn queries
+_checkpointer = MemorySaver()
+
 @tool
 def retrieve_icd10_context(query: str) -> str:
     """Search the RAG index for ICD-10 codes and clinical guidelines relevant to a query.
 
     Use this when you need to suggest an ICD-10 code or find relevant
-    clinical documentation guidelines. Returns the top-3 matching chunks.
+    clinical documentation guidelines. Returns the top-3 matching chunks with relevance confidence scores.
 
     Args:
         query: A clinical question or symptom description.
@@ -93,10 +98,10 @@ def retrieve_icd10_context(query: str) -> str:
     if db is None:
         return "RAG index unavailable (run 'make ingest' first)."
     try:
-        docs = db.similarity_search(query, k=3)
+        results = db.similarity_search_with_relevance_scores(query, k=3)
         chunks = [
-            f"--- Chunk #{i} (source: {d.metadata.get('source', 'unknown')}) ---\n{d.page_content}"
-            for i, d in enumerate(docs, 1)
+            f"--- Chunk #{i} (Score: {score:.4f}, source: {doc.metadata.get('source', 'unknown')}) ---\n{doc.page_content}"
+            for i, (doc, score) in enumerate(results, 1)
         ]
         return "\n\n".join(chunks)
     except Exception as exc:
@@ -150,6 +155,7 @@ async def build_agent_with_mcp():
         llm,
         all_tools,
         prompt=system_prompt,
+        checkpointer=_checkpointer,
     )
     yield agent
 
@@ -158,17 +164,50 @@ async def build_agent_with_mcp():
 # Public convenience wrapper
 # ---------------------------------------------------------------------------
 
-async def run_agent(user_input: str) -> str:
-    """Run the agent on a single user input and return the final response text.
+async def run_agent(user_input: str, thread_id: str = "default_session") -> str:
+    """Run the agent on a single user input and return the final response text."""
+    response, _ = await run_agent_with_trace(user_input, thread_id=thread_id)
+    return response
 
-    This is the main entry point used by app.py and test scripts.
+
+async def run_agent_with_trace(
+    user_input: str, thread_id: str = "default_session"
+) -> tuple[str, list[dict]]:
+    """Run the agent on user input and return (final_response, trace_events).
+
+    trace_events contains structured dicts for each tool call, tool output, and RAG retrieval.
     """
+    trace_events: list[dict] = []
     async with build_agent_with_mcp() as agent:
         result = await agent.ainvoke(
-            {"messages": [HumanMessage(content=user_input)]}
+            {"messages": [HumanMessage(content=user_input)]},
+            config={"configurable": {"thread_id": thread_id}},
         )
-        # The last message in the response is the agent's final answer
-        return result["messages"][-1].content
+
+        messages = result.get("messages", [])
+        for msg in messages:
+            # Tool calls made by AI
+            if hasattr(msg, "tool_calls") and msg.tool_calls:
+                for tc in msg.tool_calls:
+                    trace_events.append(
+                        {
+                            "type": "tool_call",
+                            "name": tc.get("name"),
+                            "args": tc.get("args"),
+                        }
+                    )
+            # Tool responses
+            elif hasattr(msg, "name") and msg.name:
+                trace_events.append(
+                    {
+                        "type": "tool_result",
+                        "name": msg.name,
+                        "content": str(msg.content)[:800],
+                    }
+                )
+
+        final_response = messages[-1].content if messages else "No response generated."
+        return final_response, trace_events
 
 
 # ---------------------------------------------------------------------------

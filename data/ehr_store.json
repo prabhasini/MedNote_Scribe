@@ -14,16 +14,30 @@
           "signed": false
         },
         {
-          "note_id": "NOTE-PAT001-20260719-001",
-          "visit_date": "2026-07-19",
-          "note": "S: Test note\nO: BP 120/80\nA: ...\nP: ...",
+          "note_id": "NOTE-PAT001-20260721-001",
+          "visit_date": "2026-07-21",
+          "note": "S: Patient returned for follow up on tension headaches. Reports 50% reduction in headache frequency. O: BP 122/78, HR 72. A: Suggestive of improving recurrent tension headache (G44.2). P: Continue stress management and PRN ibuprofen.",
           "icd10_suggestions": [],
           "signed": false
         },
         {
-          "note_id": "NOTE-PAT001-20260719-002",
-          "visit_date": "2026-07-19",
-          "note": "S: Test note\nO: BP 120/80\nA: ...\nP: ...",
+          "note_id": "NOTE-PAT001-20260721-002",
+          "visit_date": "2026-07-21",
+          "note": "S: Patient reports 50% improvement in headache frequency.\nO: BP 122/78.\nA: Suggestive of improving tension headache (G44.2).\nP: Continue stress management.",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT001-20260721-003",
+          "visit_date": "2026-07-21",
+          "note": "⚠️ URGENT ESCALATION REQUIRED\n\n**S – Subjective**\n* Chief Complaint: Chest pain radiating to the left arm\n* Symptoms & History: Patient reports chest pain with radiation to the left arm\n* Medications & Social History: No information provided\n\n**O – Objective**\n* Vital Signs: No information provided\n* Physical Exam & Lab Findings: No information provided\n\n**A – Assessment**\n* For physician review: Differential possibilities pending physician confirmation, as this case requires immediate in-person emergency evaluation.\n\n**P – Plan**\n* Next Steps & Interventions: This case requires immediate in-person emergency evaluation. Do not proceed with routine documentation alone.\n* Follow-Up & Recommendations: Patient should be immediately escorted to the emergency department for further evaluation and management.",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT001-20260721-004",
+          "visit_date": "2026-07-21",
+          "note": "S: Patient reports 50% improvement in headache frequency.\nO: BP 122/78.\nA: Suggestive of improving tension headache (G44.2).\nP: Continue stress management.",
           "icd10_suggestions": [],
           "signed": false
         }

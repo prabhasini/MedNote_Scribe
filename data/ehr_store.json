@@ -40,6 +40,20 @@
           "note": "S: Patient reports 50% improvement in headache frequency.\nO: BP 122/78.\nA: Suggestive of improving tension headache (G44.2).\nP: Continue stress management.",
           "icd10_suggestions": [],
           "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT001-20260722-001",
+          "visit_date": "2026-07-22",
+          "note": "S: Patient reports 50% improvement in headache frequency. O: BP 122/78. A: Suggestive of improving tension headache (G44.2). P: Continue stress management.",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT001-20240916-001",
+          "visit_date": "2024-09-16",
+          "note": "**S – Subjective**\n* Chief Complaint: Cough for about a week\n* Symptoms & History: The patient reports a cough that started dry but has been productive of yellowish mucus for the last three days, fever of 101°F for the first two days, shortness of breath when climbing stairs, sore throat at the beginning, and body aches. The patient has been taking paracetamol and an over-the-counter cough syrup.\n* Medications & Social History: The patient does not smoke, has no history of asthma, COPD, or allergies, and has been in contact with a family member who had a cold recently.\n**O – Objective**\n* Vital Signs: Oxygen saturation is 97%, heart rate is 92 beats per minute, blood pressure is 122 over 78, and temperature is 98.6°F.\n* Physical Exam & Lab Findings: Crackles heard in the right lower lung.\n**A – Assessment**\n* For physician review: Possible mild bacterial chest infection, early community-acquired pneumonia, or acute bronchitis.\n**P – Plan**\n* Next Steps & Interventions: The patient has been prescribed amoxicillin-clavulanate for five days, advised to stay hydrated, and to use paracetamol if fever returns. A chest X-ray and complete blood count have been ordered.\n* Follow-Up & Recommendations: Follow-up in five days or sooner if symptoms worsen.",
+          "icd10_suggestions": [],
+          "signed": false
         }
       ]
     },
@@ -67,6 +81,13 @@
           "note_id": "NOTE-PAT002-20260719-002",
           "visit_date": "2026-07-19",
           "note": "S: Patient reports mild dizziness on standing. No syncope or chest pain. O: BP 118/72 (orthostatic drop from 130/80). Heart Rate 76. A: For physician review: Possible orthostatic hypotension (ICD-10 suggestion: I95.1). P: Increase fluid intake, advise slow position changes. Follow up in 2 weeks.",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT002-20260722-001",
+          "visit_date": "2026-07-22",
+          "note": "**S – Subjective**\n* Chief Complaint: Headache for 3 days, worse in the morning\n* Symptoms & History: Patient reports headache for 3 days, worsening in the morning, without nausea\n* Medications & Social History: Patient is on Lisinopril 10mg daily for hypertension\n\n**O – Objective**\n* Vital Signs: BP 130/85\n* Physical Exam & Lab Findings: No notable physical exam or lab findings reported\n\n**A – Assessment**\n* For physician review: Possible tension-type headache (ICD-10 suggestions: G44.229, G44.219, or R51.9 for unspecified headache)\n\n**P – Plan**\n* Next Steps & Interventions: Consider over-the-counter pain relief options, advise patient to maintain a headache diary to track frequency and severity\n* Follow-Up & Recommendations: Schedule follow-up appointment in 1-2 weeks to reassess headache symptoms and adjust plan as needed",
           "icd10_suggestions": [],
           "signed": false
         }
@@ -103,6 +124,13 @@
           "icd10_suggestions": [
             "S93.401A"
           ],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT005-20240916-001",
+          "visit_date": "2024-09-16",
+          "note": "**S – Subjective**\n* Chief Complaint: Throbbing headache on the right side\n* Symptoms & History: Headache worsened by bright lights, accompanied by nausea\n* Medications & Social History: As stated in transcript\n**O – Objective**\n* No objective findings reported in transcript\n**A – Assessment**\n* For physician review: Migraine, pending physician confirmation\n**P – Plan**\n* Next Steps & Interventions: Migraine medication prescribed, rest in a dark room recommended\n* Follow-Up & Recommendations: As per physician's instructions",
+          "icd10_suggestions": [],
           "signed": false
         }
       ]

@@ -1,0 +1,47 @@
+1. Emergency Case: Acute Myocardial Infarction (Heart Attack)
+
+Patient: Doctor, I have severe chest pain that's spreading to my left arm, and I'm sweating a lot.
+
+Doctor: When did it start? Are you feeling short of breath?
+
+Patient: About 30 minutes ago, and yes, I'm struggling to breathe.
+
+Doctor: This could be a heart attack. We're activating the emergency team, getting an ECG immediately, and giving you aspirin and oxygen.
+
+Possible ICD-10: I21.9 (Acute myocardial infarction, unspecified)
+
+2. Emergency Case: Acute Ischemic Stroke
+
+Patient's Wife: My husband suddenly can't move his right arm, and his speech became slurred about 20 minutes ago.
+
+Doctor: Did these symptoms start suddenly? Has he ever had this before?
+
+Patient's Wife: Yes, it happened all of a sudden. No previous episodes.
+
+Doctor: This is a medical emergency. We'll perform an urgent CT scan and evaluate him immediately for stroke treatment.
+
+Possible ICD-10: I63.9 (Cerebral infarction, unspecified)
+
+3. Outpatient Case: Acute Otitis Media
+
+Patient: My left ear has been hurting since yesterday, and my hearing feels muffled.
+
+Doctor: Have you had fever or a recent cold?
+
+Patient: Yes, I had a cold last week and a mild fever last night.
+
+Doctor: You likely have a middle ear infection. I'll prescribe antibiotics and pain medication.
+
+Possible ICD-10: H66.90 (Otitis media, unspecified)
+
+4. Outpatient Case: Migraine Without Aura
+
+Patient: I've had a throbbing headache on the right side since this morning, and bright lights make it worse.
+
+Doctor: Do you feel nauseated or have vomiting?
+
+Patient: Yes, I've been nauseous but haven't vomited.
+
+Doctor: This appears to be a migraine. I'll prescribe migraine medication and recommend rest in a dark room.
+
+Possible ICD-10: G43.909 (Migraine, unspecified, not intractable, without status migrainosus)

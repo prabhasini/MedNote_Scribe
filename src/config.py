@@ -34,3 +34,7 @@ CLINICAL_GUIDELINES_PATH: Path = CORPUS_DIR / "clinical_guidelines.md"
 # Mock EHR store (local JSON file)
 EHR_STORE_PATH: Path = PROJECT_ROOT / "data" / "ehr_store.json"
 
+# Synthetic transcripts dataset path
+SYNTHETIC_DATASET_PATH: Path = PROJECT_ROOT / "data" / "transcripts_synthetic" / "transcripts.jsonl"
+
+

@@ -1,0 +1,69 @@
+Doctor: Good morning, Mrs. Sharma. What brings you in today?
+
+Patient: Good morning, doctor. I've been having a cough for about a week now, and it doesn't seem to be getting better.
+
+Doctor: I'm sorry to hear that. Can you describe the cough? Is it dry or are you bringing up mucus?
+
+Patient: It started dry, but for the last three days I've been coughing up yellowish mucus.
+
+Doctor: Have you had any fever?
+
+Patient: Yes, I had a fever for the first two days. It was around 101°F, but it's gone now.
+
+Doctor: Any shortness of breath or chest pain?
+
+Patient: I feel a little short of breath when I climb stairs, but no chest pain.
+
+Doctor: Any wheezing?
+
+Patient: Not that I've noticed.
+
+Doctor: Do you have a sore throat or runny nose?
+
+Patient: I had a sore throat at the beginning, but it's mostly gone. No runny nose.
+
+Doctor: Have you experienced chills, fatigue, or body aches?
+
+Patient: Yes, I've been feeling tired all week, and I had body aches when the fever started.
+
+Doctor: Have you taken any medications?
+
+Patient: I've been taking paracetamol for the fever and an over-the-counter cough syrup.
+
+Doctor: Any improvement?
+
+Patient: The fever improved, but the cough hasn't.
+
+Doctor: Do you smoke?
+
+Patient: No, I've never smoked.
+
+Doctor: Any history of asthma, COPD, or allergies?
+
+Patient: No, none of those.
+
+Doctor: Any recent travel or contact with someone who was sick?
+
+Patient: My son had a cold about ten days ago.
+
+Doctor: Let me listen to your lungs.
+
+(Doctor performs physical examination.)
+
+Doctor: Take a deep breath... and again... Good. I can hear some crackles in your right lower lung. Your oxygen saturation is 97%, heart rate is 92 beats per minute, blood pressure is 122 over 78, and your temperature today is normal at 98.6°F.
+
+Patient: Is it serious?
+
+Doctor: It may be a mild bacterial chest infection, possibly early community-acquired pneumonia or acute bronchitis. I'd like to order a chest X-ray and a complete blood count to be sure.
+
+Patient: Okay.
+
+Doctor: In the meantime, I'll prescribe you amoxicillin-clavulanate for five days, continue staying hydrated, and use paracetamol if fever returns. If you develop worsening shortness of breath, persistent high fever, or chest pain, come back immediately or visit the emergency department.
+
+Patient: Alright. When should I follow up?
+
+Doctor: I'd like to see you again in five days, or sooner if your symptoms worsen.
+
+Patient: Thank you, doctor.
+
+Doctor: You're welcome. Get plenty of rest and feel better soon.

@@ -23,9 +23,9 @@
 | 4 | Generate synthetic dataset of doctor-patient transcripts (incl. red-flag case) | ✅ | `data/transcripts_synthetic/transcripts.jsonl` containing 6 transcripts (including 1 red-flag case) |
 | 5 | Collect ICD-10 code subset and clinical docs for RAG corpus | ✅ | `data/corpus/` containing `icd10_codes.md`, `clinical_guidelines.md`, and `SOURCES.md` |
 | 6 | Build ingestion pipeline: chunk, embed, load into vector store | ✅ | Ingestion pipeline script `src/ingest.py` implemented and verified |
-| 7 | Implement retrieval; test against tension-headache ICD-10 query | ⬜ | — |
-| 8 | Wire minimal prototype: transcript → SOAP note (no tools/guardrails) | ⬜ | — |
-| 9 | Build Gradio chat UI and deploy locally with shareable link | ⬜ | — |
+| 7 | Implement retrieval; test against tension-headache ICD-10 query | ✅ | `src/scripts/retrieve.py` returns top-3 chunks for G44.2 |
+| 8 | Wire minimal prototype: transcript → SOAP note (no tools/guardrails) | ✅ | `src/chatbot.py` implemented and tested |
+| 9 | Build Gradio chat UI and deploy locally with shareable link | ✅ | `src/app.py` launched and tested locally |
 
 ---
 

@@ -28,13 +28,13 @@ class TestGroupC_EHRTools:
         assert "Awaiting physician sign-off" in r["message"]
 
     def test_C2_save_note_unknown_patient(self):
-        """Pattern C-2: Save note for non-existent patient ID."""
+        """Pattern C-2: Save note for new patient ID auto-registers patient and succeeds."""
         r = save_note.invoke({
             "patient_id": "PAT-999",
             "note": "S: Test note..."
         })
-        assert r["status"] == "error"
-        assert r["error_code"] == "PATIENT_NOT_FOUND"
+        assert r["status"] == "success"
+        assert "note_id" in r
 
     def test_C3_save_note_empty_note(self):
         """Pattern C-3: Save empty or whitespace-only note."""
@@ -72,10 +72,12 @@ class TestGroupC_EHRTools:
         assert "new patient" in r["message"].lower()
 
     def test_C7_get_patient_history_unknown_id(self):
-        """Pattern C-7: Retrieve history for unknown patient ID."""
-        r = get_patient_history.invoke({"patient_id": "PAT-999"})
-        assert r["status"] == "error"
-        assert r["error_code"] == "PATIENT_NOT_FOUND"
+        """Pattern C-7: Retrieve history for unknown patient ID returns empty history gracefully."""
+        r = get_patient_history.invoke({"patient_id": "PAT-888"})
+        assert r["status"] == "success"
+        assert r["visit_count"] == 0
+        assert r["visits"] == []
+
 
     def test_C8_get_patient_history_max_visits_boundary(self):
         """Pattern C-8: max_visits parameter range validation."""

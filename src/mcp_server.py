@@ -84,13 +84,15 @@ def save_note(patient_id: str, note: str, visit_date: str = "") -> dict:
             "message": "Failed to read EHR store; please retry.",
         }
 
-    patients: dict = store.get("patients", {})
+    patients: dict = store.setdefault("patients", {})
     if patient_id not in patients:
-        return {
-            "status": "error",
-            "error_code": "PATIENT_NOT_FOUND",
-            "message": f"No patient record found for ID: {patient_id}.",
+        log.info("[MCP save_note] Registering new patient_id=%r", patient_id)
+        patients[patient_id] = {
+            "name": f"Patient {patient_id}",
+            "dob": _generate_random_dob(patient_id),
+            "visits": [],
         }
+
 
     visits: list = patients[patient_id].setdefault("visits", [])
     note_id = _make_note_id(patient_id, resolved_date, visits)
@@ -155,11 +157,15 @@ def get_patient_history(patient_id: str, max_visits: int = 3) -> dict:
 
     patients: dict = store.get("patients", {})
     if patient_id not in patients:
+        log.info("[MCP get_patient_history] Unknown patient_id=%r, returning empty history", patient_id)
         return {
-            "status": "error",
-            "error_code": "PATIENT_NOT_FOUND",
-            "message": f"No patient record found for ID: {patient_id}.",
+            "status": "success",
+            "patient_id": patient_id,
+            "visit_count": 0,
+            "visits": [],
+            "message": f"No prior visit history found for patient {patient_id}. This appears to be a new patient.",
         }
+
 
     all_visits: list = patients[patient_id].get("visits", [])
     sorted_visits = sorted(

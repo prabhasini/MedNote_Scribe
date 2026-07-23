@@ -54,6 +54,41 @@
           "note": "**S – Subjective**\n* Chief Complaint: Cough for about a week\n* Symptoms & History: The patient reports a cough that started dry but has been productive of yellowish mucus for the last three days, fever of 101°F for the first two days, shortness of breath when climbing stairs, sore throat at the beginning, and body aches. The patient has been taking paracetamol and an over-the-counter cough syrup.\n* Medications & Social History: The patient does not smoke, has no history of asthma, COPD, or allergies, and has been in contact with a family member who had a cold recently.\n**O – Objective**\n* Vital Signs: Oxygen saturation is 97%, heart rate is 92 beats per minute, blood pressure is 122 over 78, and temperature is 98.6°F.\n* Physical Exam & Lab Findings: Crackles heard in the right lower lung.\n**A – Assessment**\n* For physician review: Possible mild bacterial chest infection, early community-acquired pneumonia, or acute bronchitis.\n**P – Plan**\n* Next Steps & Interventions: The patient has been prescribed amoxicillin-clavulanate for five days, advised to stay hydrated, and to use paracetamol if fever returns. A chest X-ray and complete blood count have been ordered.\n* Follow-Up & Recommendations: Follow-up in five days or sooner if symptoms worsen.",
           "icd10_suggestions": [],
           "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT001-20260722-002",
+          "visit_date": "2026-07-22",
+          "note": "S: Test note\nO: BP 120/80\nA: ...\nP: ...",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT001-20260722-003",
+          "visit_date": "2026-07-22",
+          "note": "S: Test note\nO: BP 120/80\nA: ...\nP: ...",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT001-20260722-004",
+          "visit_date": "2026-07-22",
+          "note": "S: Test note\nO: BP 120/80\nA: ...\nP: ...",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT001-20260722-005",
+          "visit_date": "2026-07-22",
+          "note": "S: Test note\nO: BP 120/80\nA: ...\nP: ...",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT001-20260722-006",
+          "visit_date": "2026-07-22",
+          "note": "S: Test note\nO: BP 120/80\nA: ...\nP: ...",
+          "icd10_suggestions": [],
+          "signed": false
         }
       ]
     },
@@ -90,13 +125,42 @@
           "note": "**S – Subjective**\n* Chief Complaint: Headache for 3 days, worse in the morning\n* Symptoms & History: Patient reports headache for 3 days, worsening in the morning, without nausea\n* Medications & Social History: Patient is on Lisinopril 10mg daily for hypertension\n\n**O – Objective**\n* Vital Signs: BP 130/85\n* Physical Exam & Lab Findings: No notable physical exam or lab findings reported\n\n**A – Assessment**\n* For physician review: Possible tension-type headache (ICD-10 suggestions: G44.229, G44.219, or R51.9 for unspecified headache)\n\n**P – Plan**\n* Next Steps & Interventions: Consider over-the-counter pain relief options, advise patient to maintain a headache diary to track frequency and severity\n* Follow-Up & Recommendations: Schedule follow-up appointment in 1-2 weeks to reassess headache symptoms and adjust plan as needed",
           "icd10_suggestions": [],
           "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT002-20260723-001",
+          "visit_date": "2026-07-23",
+          "note": "Subjective\n* Chief Complaint: Headache for 3 days, worse in the morning\n* Symptoms & History: Patient reports headache for 3 days, worse in the morning, no nausea\n* Medications & Social History: None reported\nObjective\n* Vital Signs: BP 130/85\n* Physical Exam & Lab Findings: None reported\nAssessment\n* Differential possibilities: For physician review, pending physician confirmation\nPlan\n* Next Steps & Interventions: For physician review\n* Follow-Up & Recommendations: For physician review",
+          "icd10_suggestions": [],
+          "signed": false
         }
       ]
     },
     "PAT-003": {
       "name": "Synthetic Patient C",
       "dob": "1992-11-07",
-      "visits": []
+      "visits": [
+        {
+          "note_id": "NOTE-PAT003-20240309-001",
+          "visit_date": "2024-03-09",
+          "note": "**S – Subjective**\n* Chief Complaint: Throbbing headache on the right side since morning, worsened by bright lights\n* Symptoms & History: Patient reports nausea but no vomiting\n* Medications & Social History: No prior visit history or medication information available for patient PAT-003\n\n**O – Objective**\n* Vital Signs: Not available\n* Physical Exam & Lab Findings: Not available\n\n**A – Assessment**\n* For physician review: Differential possibilities include migraine (G43.909) or unspecified headache (R51.9), pending physician confirmation and further evaluation\n\n**P – Plan**\n* Next Steps & Interventions: Recommend a physical exam, vital sign assessment, and potentially lab tests to determine the cause of the headache and nausea\n* Follow-Up & Recommendations: Patient should follow up with Dr. Rao for further evaluation and management of symptoms. Saved notes will await physician sign-off.",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT003-20240309-002",
+          "visit_date": "2024-03-09",
+          "note": "**S – Subjective**\n* Chief Complaint: Ear pain and muffled hearing\n* Symptoms & History: Patient reports ear pain on the left side since yesterday, muffled hearing, recent cold, and mild fever last night\n* Medications & Social History: No prior medication information available for patient PAT-003, but patient had a recent cold and mild fever\n\n**O – Objective**\n* Vital Signs: Not available\n* Physical Exam & Lab Findings: Not available\n\n**A – Assessment**\n* For physician review: Differential possibilities include otitis media or externa, Eustachian tube dysfunction, or other conditions, pending physician confirmation and further evaluation. No matching ICD-10 code found in reference context.\n\n**P – Plan**\n* Next Steps & Interventions: Recommend a physical exam, vital sign assessment, and potentially lab tests or audiometry to determine the cause of the ear pain and muffled hearing\n* Follow-Up & Recommendations: Patient should follow up with Dr. Rao for further evaluation and management of symptoms. Saved notes will await physician sign-off.",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT003-20240309-003",
+          "visit_date": "2024-03-09",
+          "note": "**S – Subjective**\n* Chief Complaint: Ear pain and muffled hearing\n* Symptoms & History: Patient reports ear pain on the left side since yesterday, muffled hearing, recent cold, and mild fever last night\n* Medications & Social History: No prior medication information available for patient PAT-003, but patient had a recent cold and mild fever\n\n**O – Objective**\n* Vital Signs: Not available\n* Physical Exam & Lab Findings: Not available\n\n**A – Assessment**\n* For physician review: Differential possibilities include otitis media or externa, Eustachian tube dysfunction, or other conditions, pending physician confirmation and further evaluation. No matching ICD-10 code found in reference context.\n\n**P – Plan**\n* Next Steps & Interventions: Recommend a physical exam, vital sign assessment, and potentially lab tests or audiometry to determine the cause of the ear pain and muffled hearing\n* Follow-Up & Recommendations: Patient should follow up with Dr. Rao for further evaluation and management of symptoms. Saved notes will await physician sign-off.",
+          "icd10_suggestions": [],
+          "signed": false
+        }
+      ]
     },
     "PAT-004": {
       "name": "Synthetic Patient D",
@@ -109,6 +173,20 @@
           "icd10_suggestions": [
             "J20.9"
           ],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT004-20260722-001",
+          "visit_date": "2026-07-22",
+          "note": "**S – Subjective**\n* Chief Complaint: Throbbing headache on the right side\n* Symptoms & History: Headache started this morning, worsened by bright lights, accompanied by nausea\n* Medications & Social History: None mentioned\n**O – Objective**\n* Vital Signs: Not mentioned\n* Physical Exam & Lab Findings: Not mentioned\n**A – Assessment**\n* For physician review: Migraine, pending physician confirmation\n**P – Plan**\n* Next Steps & Interventions: Migraine medication prescribed, rest in a dark room recommended\n* Follow-Up & Recommendations: Pending physician review and sign-off",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT004-20260722-002",
+          "visit_date": "2026-07-22",
+          "note": "**S – Subjective**\n* Chief Complaint: Throbbing headache on the right side, recent cold and mild fever\n* Symptoms & History: Headache started this morning, worsened by bright lights, accompanied by nausea, recent cold and mild fever\n* Medications & Social History: None mentioned\n**O – Objective**\n* Vital Signs: Not mentioned\n* Physical Exam & Lab Findings: Not mentioned\n**A – Assessment**\n* For physician review: Middle ear infection, pending physician confirmation\n**P – Plan**\n* Next Steps & Interventions: Antibiotics and pain medication prescribed\n* Follow-Up & Recommendations: Pending physician review and sign-off",
+          "icd10_suggestions": [],
           "signed": false
         }
       ]
@@ -132,6 +210,13 @@
           "note": "**S – Subjective**\n* Chief Complaint: Throbbing headache on the right side\n* Symptoms & History: Headache worsened by bright lights, accompanied by nausea\n* Medications & Social History: As stated in transcript\n**O – Objective**\n* No objective findings reported in transcript\n**A – Assessment**\n* For physician review: Migraine, pending physician confirmation\n**P – Plan**\n* Next Steps & Interventions: Migraine medication prescribed, rest in a dark room recommended\n* Follow-Up & Recommendations: As per physician's instructions",
           "icd10_suggestions": [],
           "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT005-20260723-001",
+          "visit_date": "2026-07-23",
+          "note": "Subjective\n* Chief Complaint: Headache for 3 days, worse in the morning\n* Symptoms & History: Patient reports headache for 3 days, worse in the morning, no nausea\n* Medications & Social History: None reported\nObjective\n* Vital Signs: BP 130/85\n* Physical Exam & Lab Findings: None reported\nAssessment\n* Differential possibilities: For physician review, pending physician confirmation\nPlan\n* Next Steps & Interventions: For physician review\n* Follow-Up & Recommendations: For physician review",
+          "icd10_suggestions": [],
+          "signed": false
         }
       ]
     },
@@ -139,6 +224,33 @@
       "name": "Synthetic Patient F",
       "dob": "1955-09-03",
       "visits": []
+    },
+    "PAT-007": {
+      "name": "Patient PAT-007",
+      "dob": "1988-04-12",
+      "visits": [
+        {
+          "note_id": "NOTE-PAT007-20240408-001",
+          "visit_date": "2024-04-08",
+          "note": "**S – Subjective**\n* Chief Complaint: Cough for about a week, not improving\n* Symptoms & History: The patient reports a cough that started dry but has been productive of yellowish mucus for the last three days. Initial fever of 101°F for two days, now resolved. Patient experiences shortness of breath when climbing stairs but no chest pain. Sore throat at the beginning, now mostly resolved. No runny nose. Patient has been feeling tired all week and had body aches when the fever started.\n* Medications & Social History: The patient has been taking paracetamol for fever and an over-the-counter cough syrup. No smoking history. No history of asthma, COPD, or allergies. Recent contact with a family member who had a cold.\n\n**O – Objective**\n* Vital Signs: Oxygen saturation 97%, heart rate 92 beats per minute, blood pressure 122/78 mmHg, temperature 98.6°F\n* Physical Exam & Lab Findings: Crackles heard in the right lower lung. Pending chest X-ray and complete blood count results.\n\n**A – Assessment**\n* For physician review: The patient's presentation could suggest a mild bacterial chest infection, possibly early community-acquired pneumonia or acute bronchitis, given the symptoms and physical exam findings. Differential diagnoses may include other respiratory infections. ICD-10 code suggestions based on the retrieved context include J20.9 for acute bronchitis, unspecified.\n\n**P – Plan**\n* Next Steps & Interventions: The patient has been prescribed amoxicillin-clavulanate for five days. Continue hydration and use paracetamol if fever returns. The patient is to return in five days for follow-up or sooner if symptoms worsen.\n* Follow-Up & Recommendations: Patient education on the importance of completing the antibiotic course, monitoring for worsening symptoms, and when to seek immediate medical attention.",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT007-20260723-001",
+          "visit_date": "2026-07-23",
+          "note": "⚠️ URGENT ESCALATION REQUIRED\nSubjective\n* Chief Complaint: Patient reports severe chest pain radiating to the left arm, accompanied by excessive sweating.\n* Symptoms & History: The patient states the onset of symptoms occurred approximately 30 minutes ago, with associated shortness of breath.\n* Medications & Social History: No information provided in the transcript.\n\nObjective\n* Vital Signs: Not explicitly stated, but the patient is experiencing severe chest pain and shortness of breath.\n* Physical Exam & Lab Findings: ECG to be performed immediately as part of emergency response.\n\nAssessment\n* Differential possibilities: For physician review, pending confirmation. The symptoms suggest a potential myocardial infarction (heart attack), but clinical judgment and further evaluation are required for a definitive diagnosis.\n\nPlan\n* Next Steps & Interventions: The emergency team has been activated. The patient is to receive aspirin and oxygen immediately, with an ECG to be performed urgently.\n* Follow-Up & Recommendations: This case requires immediate in-person emergency evaluation. Do not proceed with routine documentation alone.",
+          "icd10_suggestions": [],
+          "signed": false
+        },
+        {
+          "note_id": "NOTE-PAT007-20260723-002",
+          "visit_date": "2026-07-23",
+          "note": "Subjective\n* Chief Complaint: Patient reports a headache for 3 days, worsening in the morning.\n* Symptoms & History: The patient denies nausea.\n* Medications & Social History: No information provided in the transcript.\n\nObjective\n* Vital Signs: BP 130/85.\n* Physical Exam & Lab Findings: No additional information provided.\n\nAssessment\n* Differential possibilities: For physician review, pending confirmation. The symptoms could suggest various conditions, but clinical judgment and further evaluation are required for a definitive diagnosis.\n\nPlan\n* Next Steps & Interventions: For physician review.\n* Follow-Up & Recommendations: For physician review and sign-off.",
+          "icd10_suggestions": [],
+          "signed": false
+        }
+      ]
     }
   }
 }

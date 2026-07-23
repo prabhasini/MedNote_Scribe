@@ -149,94 +149,165 @@ def render_patient_banner(patient_id: str, custom_id: str = "") -> str:
         return f"<div style='color:#f8fafc;'>Patient ID: {resolved_id}</div>"
 
 
+def format_clean_soap_section(text: str) -> str:
+    """Format SOAP section text into clean HTML with ○ bullets and paragraphs."""
+    if not text or not text.strip():
+        return "<div style='color:#94a3b8; font-style:italic;'>Not documented.</div>"
+
+    cleaned = text.strip()
+
+    lines = cleaned.split('\n')
+    items_html = []
+
+    # A line that is ONLY a bullet/circle decorator with no real text content
+    lone_decorator_re = re.compile(r'^[\u25cb\u25e6\u2022\u00b7\*\-\+]\s*$')
+    # A line where bullet/circle + space(s) + actual text are all together
+    inline_bullet_re  = re.compile(r'^[\u25cb\u25e6\u2022\u00b7\*\-\+]\s+(.+)$')
+
+    for line in lines:
+        l = line.strip()
+        if not l:
+            continue
+
+        # Skip lone decorator lines (○ or • or - alone on a line)
+        if lone_decorator_re.match(l):
+            continue
+
+        # Check if bullet + text are on the SAME line
+        m = inline_bullet_re.match(l)
+        if m:
+            content = m.group(1).strip()
+            is_bullet = True
+        else:
+            content = l
+            is_bullet = False
+
+        # Convert **bold** → <strong>
+        content = re.sub(
+            r'\*\*(.*?)\*\*',
+            r'<strong style="color:#f1f5f9; font-weight:600;">\1</strong>',
+            content,
+        )
+        # Remove stray lone asterisks (but don't touch content inside <strong>)
+        content = re.sub(r'(?<!<strong[^>]*>)\*(?!</strong>)', '', content)
+
+        if is_bullet:
+            items_html.append(
+                f'<li style="margin-bottom:5px; list-style-type:none; display:flex; align-items:flex-start; gap:10px;">'
+                f'<span style="color:#94a3b8; font-size:14px; line-height:1.55; flex-shrink:0;">○</span>'
+                f'<span style="color:#cbd5e1; font-size:13.5px; line-height:1.60;">{content}</span>'
+                f'</li>'
+            )
+        else:
+            items_html.append(
+                f'<p style="margin:0 0 7px 0; color:#cbd5e1; font-size:13.5px; line-height:1.65;">{content}</p>'
+            )
+
+    # Wrap consecutive <li> items in a <ul>
+    grouped = []
+    in_ul = False
+    for item in items_html:
+        if item.startswith('<li'):
+            if not in_ul:
+                grouped.append('<ul style="padding:0; margin:4px 0 4px 0; list-style:none;">')
+                in_ul = True
+            grouped.append(item)
+        else:
+            if in_ul:
+                grouped.append('</ul>')
+                in_ul = False
+            grouped.append(item)
+    if in_ul:
+        grouped.append('</ul>')
+
+    return ''.join(grouped)
+
+
 def render_structured_soap_wells(response_text: str) -> str:
-    """Parse text for Subjective, Objective, Assessment, Plan and render visual wells."""
+    """Parse SOAP sections and render structured wells with bold headers and content."""
     if not response_text.strip():
         return "<div style='color:#94a3b8; padding:8px;'>No content generated.</div>"
 
-    # Regex patterns for SOAP headers
-    sub_pattern = re.compile(r'(?:#+\s*|\*\*|^)\s*(?:Subjective|S\s*[\:\–\-])\s*(?:\*\*)?\s*[\:\n]', re.IGNORECASE | re.MULTILINE)
-    obj_pattern = re.compile(r'(?:#+\s*|\*\*|^)\s*(?:Objective|O\s*[\:\–\-])\s*(?:\*\*)?\s*[\:\n]', re.IGNORECASE | re.MULTILINE)
-    ass_pattern = re.compile(r'(?:#+\s*|\*\*|^)\s*(?:Assessment|A\s*[\:\–\-])\s*(?:\*\*)?\s*[\:\n]', re.IGNORECASE | re.MULTILINE)
-    pla_pattern = re.compile(r'(?:#+\s*|\*\*|^)\s*(?:Plan|P\s*[\:\–\-])\s*(?:\*\*)?\s*[\:\n]', re.IGNORECASE | re.MULTILINE)
+    # Very permissive SOAP header patterns — match any common LLM heading format:
+    # **Subjective**, ## Subjective, SUBJECTIVE:, Subjective:, Subjective (alone on line), etc.
+    def _soap_pattern(word: str) -> re.Pattern:
+        return re.compile(
+            r'(?:^|\n)\s*(?:[\*\#]{0,3}\s*)' + word + r'(?:\s*[\*\#]{0,3})\s*[:\n]',
+            re.IGNORECASE,
+        )
+
+    sub_pattern = _soap_pattern('Subjective')
+    obj_pattern = _soap_pattern('Objective')
+    ass_pattern = _soap_pattern('Assessment')
+    pla_pattern = _soap_pattern('Plan')
 
     s_match = sub_pattern.search(response_text)
     o_match = obj_pattern.search(response_text)
     a_match = ass_pattern.search(response_text)
     p_match = pla_pattern.search(response_text)
 
-    # If headers are found, parse into sections
+    # --- Structured SOAP render ---
     if s_match and o_match and a_match and p_match:
-        s_end = o_match.start()
-        o_end = a_match.start()
-        a_end = p_match.start()
-
-        s_text = response_text[s_match.end():s_end].strip()
-        o_text = response_text[o_match.end():o_end].strip()
-        a_text = response_text[a_match.end():a_end].strip()
+        s_text = response_text[s_match.end(): o_match.start()].strip()
+        o_text = response_text[o_match.end(): a_match.start()].strip()
+        a_text = response_text[a_match.end(): p_match.start()].strip()
         p_text = response_text[p_match.end():].strip()
 
-        # Clean up Markdown bolding headers if leftover
-        for kw in ["**Subjective**", "**Objective**", "**Assessment**", "**Plan**", "SUBJECTIVE:", "OBJECTIVE:", "ASSESSMENT:", "PLAN:"]:
-            s_text = s_text.replace(kw, "").strip()
-            o_text = o_text.replace(kw, "").strip()
-            a_text = a_text.replace(kw, "").strip()
-            p_text = p_text.replace(kw, "").strip()
+        # Strip any leftover section-header keywords from within the content blocks
+        for kw in ['**Subjective**', '**Objective**', '**Assessment**', '**Plan**',
+                   'SUBJECTIVE:', 'OBJECTIVE:', 'ASSESSMENT:', 'PLAN:',
+                   'Subjective:', 'Objective:', 'Assessment:', 'Plan:']:
+            s_text = s_text.replace(kw, '').strip()
+            o_text = o_text.replace(kw, '').strip()
+            a_text = a_text.replace(kw, '').strip()
+            p_text = p_text.replace(kw, '').strip()
 
-        return f"""
-        <div style="display:flex; flex-direction:column; gap:14px; margin-top:6px;">
-            <!-- Subjective Well -->
-            <div class="soap-well subjective-well" style="background:#1e293b; border:1px solid #334155; border-left:5px solid #3b82f6; padding:14px 18px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
-                <div style="font-weight:700; color:#60a5fa; font-size:15px; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
-                    <span style="background:#1e3a8a; color:#bfdbfe; padding:2px 8px; border-radius:6px; font-size:12px; font-weight:700;">S</span> Subjective (Patient History & Complaints)
-                </div>
-                <div style="color:#f8fafc; font-size:14.5px; line-height:1.65; white-space:pre-wrap;">{s_text}</div>
-            </div>
+        def _section(label: str, content: str) -> str:
+            return (
+                f'<div style="padding: 14px 20px 12px 20px;">'
+                f'<div style="font-weight:700; color:#f1f5f9; font-size:14.5px; margin-bottom:8px; letter-spacing:0.01em;">'
+                f'{label}</div>'
+                f'<div>{format_clean_soap_section(content)}</div>'
+                f'</div>'
+            )
 
-            <!-- Objective Well -->
-            <div class="soap-well objective-well" style="background:#1e293b; border:1px solid #334155; border-left:5px solid #22c55e; padding:14px 18px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
-                <div style="font-weight:700; color:#4ade80; font-size:15px; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
-                    <span style="background:#14532d; color:#bbf7d0; padding:2px 8px; border-radius:6px; font-size:12px; font-weight:700;">O</span> Objective (Vitals & Exam Findings)
-                </div>
-                <div style="color:#f8fafc; font-size:14.5px; line-height:1.65; white-space:pre-wrap;">{o_text}</div>
-            </div>
+        _hr = '<hr style="border:none; border-top:1px solid #334155; margin:0;">'
 
-            <!-- Assessment Well -->
-            <div class="soap-well assessment-well" style="background:#1e293b; border:1px solid #334155; border-left:5px solid #eab308; padding:14px 18px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
-                <div style="font-weight:700; color:#facc15; font-size:15px; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
-                    <span style="background:#713f12; color:#fef08a; padding:2px 8px; border-radius:6px; font-size:12px; font-weight:700;">A</span> Assessment (Physician Differential Support)
-                </div>
-                <div style="color:#f8fafc; font-size:14.5px; line-height:1.65; white-space:pre-wrap;">{a_text}</div>
-            </div>
+        return (
+            '<div style="background:#1e293b; border:1px solid #334155; border-radius:12px; '
+            'overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.25); margin-top:4px;">'
+            + _section('Subjective', s_text)
+            + _hr
+            + _section('Objective', o_text)
+            + _hr
+            + _section('Assessment', a_text)
+            + _hr
+            + _section('Plan', p_text)
+            + '</div>'
+        )
 
-            <!-- Plan Well -->
-            <div class="soap-well plan-well" style="background:#1e293b; border:1px solid #334155; border-left:5px solid #f97316; padding:14px 18px; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
-                <div style="font-weight:700; color:#fb923c; font-size:15px; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
-                    <span style="background:#431407; color:#ffedd5; padding:2px 8px; border-radius:6px; font-size:12px; font-weight:700;">P</span> Plan (Next Steps & Recommendations)
-                </div>
-                <div style="color:#f8fafc; font-size:14.5px; line-height:1.65; white-space:pre-wrap;">{p_text}</div>
-            </div>
-        </div>
-        """
+    # --- Urgent escalation fallback ---
+    if 'urgent escalation' in response_text.lower() or 'emergency' in response_text.lower():
+        clean_text = format_clean_soap_section(response_text)
+        return (
+            '<div style="background:#450a0a; border:1px solid #991b1b; border-left:6px solid #ef4444; '
+            'padding:16px 20px; border-radius:10px; margin-bottom:14px;">'
+            '<div style="font-weight:800; color:#fca5a5; font-size:16px; margin-bottom:8px;">'
+            '⚠️ URGENT CLINICAL ESCALATION REQUIRED</div>'
+            f'<div style="color:#fef2f2; font-size:14px; line-height:1.65;">{clean_text}</div>'
+            '</div>'
+        )
 
-    # Check if this is an urgent escalation notice (e.g. chest pain red flag)
-    if "urgent escalation" in response_text.lower() or "emergency" in response_text.lower():
-        return f"""
-        <div style="background:#450a0a; border:1px solid #991b1b; border-left:6px solid #ef4444; padding:16px 20px; border-radius:10px; margin-bottom:14px;">
-            <div style="font-weight:800; color:#fca5a5; font-size:16px; margin-bottom:8px; display:flex; align-items:center; gap:8px;">
-                ⚠️ URGENT CLINICAL ESCALATION REQUIRED
-            </div>
-            <div style="color:#fef2f2; font-size:14.5px; line-height:1.65; white-space:pre-wrap;">{response_text}</div>
-        </div>
-        """
+    # --- Generic Q&A / info fallback ---
+    clean_resp = format_clean_soap_section(response_text)
+    return (
+        '<div style="background:#1e293b; border:1px solid #334155; border-left:5px solid #3b82f6; '
+        'padding:16px 20px; border-radius:10px;">'
+        '<div style="font-weight:700; color:#93c5fd; font-size:15px; margin-bottom:8px;">💬 Clinical Response:</div>'
+        f'<div style="color:#f8fafc; font-size:14.5px; line-height:1.65;">{clean_resp}</div>'
+        '</div>'
+    )
 
-    # Generic Card fallback for Q&A or info responses
-    return f"""
-    <div style="background:#1e293b; border:1px solid #334155; border-left:5px solid #3b82f6; padding:16px 20px; border-radius:10px;">
-        <div style="font-weight:700; color:#93c5fd; font-size:15px; margin-bottom:8px;">💬 Clinical Response:</div>
-        <div style="color:#f8fafc; font-size:14.5px; line-height:1.65; white-space:pre-wrap;">{response_text}</div>
-    </div>
-    """
 
 
 def extract_icd10_tiles(text: str) -> str:
@@ -309,7 +380,12 @@ def process_query(user_input: str, patient_id_choice: str, custom_patient_id: st
         )
 
     try:
-        prompt_with_patient_context = f"[Target Patient Context: patient_id='{resolved_patient_id}']\n\n{user_input}"
+        prompt_with_patient_context = (
+            f"[Target Patient Context: patient_id='{resolved_patient_id}']\n"
+            f"Target Patient ID: '{resolved_patient_id}'. Please process the input below. "
+            f"If generating a SOAP note from a transcript, you MUST call the save_note tool "
+            f"with patient_id='{resolved_patient_id}' and the full SOAP note content to save it into ehr_store.json:\n\n{user_input}"
+        )
 
         response_text, trace_events = asyncio.run(
             run_agent_with_trace(prompt_with_patient_context, thread_id=f"session_{resolved_patient_id}")
@@ -366,19 +442,32 @@ def process_query(user_input: str, patient_id_choice: str, custom_patient_id: st
 
             badge_html = " ".join(badges)
 
-        return soap_wells_html, tiles_html, trace_html, badge_html, banner_html
+        fresh_choices = get_known_patients()
+        fresh_labels = [c[0] for c in fresh_choices]
+        target_val = None
+        for choice in fresh_choices:
+            if choice[1] == resolved_patient_id:
+                target_val = choice[0]
+                break
+
+        updated_dropdown = gr.update(choices=fresh_labels, value=target_val) if target_val else gr.update(choices=fresh_labels)
+
+        return soap_wells_html, tiles_html, trace_html, badge_html, banner_html, updated_dropdown
 
     except Exception as exc:
         log.error("Error processing query in UI: %s", exc, exc_info=True)
         banner_html = render_patient_banner(patient_id_choice, custom_patient_id)
         err_html = f"<div style='color: #fca5a5; font-weight:600; padding:12px; background:#450a0a; border:1px solid #ef4444; border-radius:8px;'>❌ Error running agent: {exc}</div>"
+        fresh_choices = get_known_patients()
         return (
             err_html,
             "",
             f"<div style='color: #fca5a5; font-weight:600; padding: 8px;'>Execution Error: {exc}</div>",
             "<span style='background:#7f1d1d; color:#fecaca; padding:5px 12px; border-radius:16px; font-weight:600; font-size:13px; border:1px solid #ef4444;'>❌ Execution Error</span>",
             banner_html,
+            gr.update(choices=[c[0] for c in fresh_choices]),
         )
+
 
 
 # Eye-Soothing Slate Dark Theme Styling
@@ -573,12 +662,14 @@ with gr.Blocks(
     def resolve_pid_from_dropdown(label: str) -> str:
         if "NEW_PATIENT" in label or "➕ Create New Patient" in label:
             return "NEW_PATIENT"
-        for choice in patient_choices:
+        current_choices = get_known_patients()
+        for choice in current_choices:
             if choice[0] == label:
                 return choice[1]
         if "|" in label:
             return label.split("|")[0].strip()
         return "PAT-001"
+
 
     # Dropdown change event — updates custom ID visibility, auto-generates next ID, and re-renders banner
     def on_patient_change(selected_label: str, custom_id_val: str):
@@ -603,7 +694,7 @@ with gr.Blocks(
     submit_btn.click(
         fn=lambda text, sel, custom, sess: process_query(text, resolve_pid_from_dropdown(sel), custom, sess),
         inputs=[input_box, patient_dropdown, custom_id_box, session_state],
-        outputs=[output_box, icd10_tiles_box, trace_box, badge_box, patient_banner_box],
+        outputs=[output_box, icd10_tiles_box, trace_box, badge_box, patient_banner_box, patient_dropdown],
     )
 
     clear_btn.click(
@@ -614,10 +705,12 @@ with gr.Blocks(
             "<div style='color: #94a3b8; font-size: 13.5px; font-style: italic; padding: 6px;'>Tool calls, RAG retrievals, and EHR memory recall events will appear here during query processing.</div>",
             "<span style='background:#334155; color:#f8fafc; padding:5px 12px; border-radius:16px; font-weight:600; font-size:13px; border:1px solid #475569;'>Status: Ready</span>",
             render_patient_banner(resolve_pid_from_dropdown(sel), custom),
+            gr.update(choices=[c[0] for c in get_known_patients()]),
         ),
         inputs=[patient_dropdown, custom_id_box],
-        outputs=[output_box, icd10_tiles_box, input_box, trace_box, badge_box, patient_banner_box],
+        outputs=[output_box, icd10_tiles_box, input_box, trace_box, badge_box, patient_banner_box, patient_dropdown],
     )
+
 
     gr.Markdown(
         f"<div style='text-align: center; color: #94a3b8; font-size: 12.5px; margin-top: 20px;'>Model: <code>{GROQ_MODEL}</code> | RAG: ChromaDB + MiniLM | Tools: FastMCP EHR Store</div>"

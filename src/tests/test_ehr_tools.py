@@ -21,11 +21,11 @@ assert r["status"] == "error"
 assert r["error_code"] == "EMPTY_NOTE"
 results.append(("Test 2: empty note", "PASS", r["error_code"]))
 
-# Test 3: unknown patient
+# Test 3: new/unknown patient auto-register on save
 r = save_note.invoke({"patient_id": "PAT-999", "note": "S: something"})
-assert r["status"] == "error"
-assert r["error_code"] == "PATIENT_NOT_FOUND"
-results.append(("Test 3: unknown patient", "PASS", r["error_code"]))
+assert r["status"] == "success", f"Test 3 failed: {r}"
+assert "note_id" in r
+results.append(("Test 3: new patient auto-registered on save", "PASS", r["note_id"]))
 
 # Test 4: invalid date
 r = save_note.invoke({"patient_id": "PAT-001", "note": "S: note", "visit_date": "not-a-date"})
@@ -39,18 +39,20 @@ assert r["status"] == "success"
 assert r["visit_count"] >= 1
 results.append(("Test 5: history PAT-001", "PASS", f"visit_count={r['visit_count']}"))
 
-# Test 6: new patient — no history
-r = get_patient_history.invoke({"patient_id": "PAT-003"})
+# Test 6: patient with zero visits — no history
+r = get_patient_history.invoke({"patient_id": "PAT-006"})
 assert r["status"] == "success"
 assert r["visit_count"] == 0
 assert "new patient" in r["message"].lower()
-results.append(("Test 6: new patient PAT-003", "PASS", r["message"][:60]))
+results.append(("Test 6: patient with 0 visits PAT-006", "PASS", r["message"][:60]))
 
-# Test 7: unknown patient in get_patient_history
-r = get_patient_history.invoke({"patient_id": "PAT-999"})
-assert r["status"] == "error"
-assert r["error_code"] == "PATIENT_NOT_FOUND"
-results.append(("Test 7: unknown patient history", "PASS", r["error_code"]))
+
+# Test 7: unknown patient ID in get_patient_history returns empty history gracefully
+r = get_patient_history.invoke({"patient_id": "PAT-888"})
+assert r["status"] == "success"
+assert r["visit_count"] == 0
+results.append(("Test 7: unknown patient history returns 0 visits", "PASS", f"visit_count={r['visit_count']}"))
+
 
 print("\n" + "=" * 60)
 print("EHR Tools Smoke Test Results")

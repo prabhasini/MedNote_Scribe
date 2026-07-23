@@ -73,6 +73,18 @@ def _make_note_id(patient_id: str, visit_date: str, visits: list[dict]) -> str:
     return f"NOTE-{pid_clean}-{date_clean}-{seq:03d}"
 
 
+def _generate_random_dob(patient_id: str = "") -> str:
+    """Generate a realistic random DOB (YYYY-MM-DD) for auto-registered patients."""
+    import random
+    # Use patient_id hash if available for deterministic seed per patient, or random
+    seed_val = sum(ord(c) for c in patient_id) if patient_id else random.randint(1, 10000)
+    rng = random.Random(seed_val)
+    year = rng.randint(1965, 2002)
+    month = rng.randint(1, 12)
+    day = rng.randint(1, 28)
+    return f"{year:04d}-{month:02d}-{day:02d}"
+
+
 # ---------------------------------------------------------------------------
 # Tool #1 — save_note  (Task #11)
 # ---------------------------------------------------------------------------
@@ -124,15 +136,17 @@ def save_note(patient_id: str, note: str, visit_date: str = "") -> dict[str, Any
             "message": "Failed to read EHR store; please retry.",
         }
 
-    # --- Validate patient ---
-    patients: dict = store.get("patients", {})
+    # --- Ensure patient record exists (auto-register new patient if needed) ---
+    patients: dict = store.setdefault("patients", {})
     if patient_id not in patients:
-        log.warning("[save_note] Unknown patient_id=%r", patient_id)
-        return {
-            "status": "error",
-            "error_code": "PATIENT_NOT_FOUND",
-            "message": f"No patient record found for ID: {patient_id}.",
+        log.info("[save_note] Registering new patient_id=%r", patient_id)
+        patients[patient_id] = {
+            "name": f"Patient {patient_id}",
+            "dob": _generate_random_dob(patient_id),
+            "visits": [],
         }
+
+
 
     # --- Build and persist the visit record ---
     visits: list[dict] = patients[patient_id].setdefault("visits", [])
@@ -211,15 +225,18 @@ def get_patient_history(patient_id: str, max_visits: int = 3) -> dict[str, Any]:
             "message": "Failed to read EHR store; please retry.",
         }
 
-    # --- Validate patient ---
+    # --- Check patient existence ---
     patients: dict = store.get("patients", {})
     if patient_id not in patients:
-        log.warning("[get_patient_history] Unknown patient_id=%r", patient_id)
+        log.info("[get_patient_history] Unknown patient_id=%r, returning empty history for new patient", patient_id)
         return {
-            "status": "error",
-            "error_code": "PATIENT_NOT_FOUND",
-            "message": f"No patient record found for ID: {patient_id}.",
+            "status": "success",
+            "patient_id": patient_id,
+            "visit_count": 0,
+            "visits": [],
+            "message": f"No prior visit history found for patient {patient_id}. This appears to be a new patient.",
         }
+
 
     # --- Fetch and format visits ---
     all_visits: list[dict] = patients[patient_id].get("visits", [])
